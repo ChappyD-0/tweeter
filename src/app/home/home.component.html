@@ -1,1 +1,31 @@
-<p>home works!</p>
+
+<p>Welcome {{ username }}</p>
+
+<div class="container color-ligth">
+  <div class="col">
+    <form>
+      <input
+        type="text"
+        class="txt"
+        name="item"
+        placeholder="your tweet here..."
+        [(ngModel)]="tweetText"
+      />
+      <input
+        type="submit"
+        class="btn"
+        value="tweet"
+        (click)="addTweet()"
+      />
+    </form>
+  </div>
+
+  <div class="col">
+    <p
+      class="life-container"
+      *ngFor="let tweet of tweets; let i = index"
+    >
+      {{ tweet.id }} - {{ tweet.tweet }}
+    </p>
+  </div>
+</div>
