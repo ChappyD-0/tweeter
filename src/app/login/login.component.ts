@@ -20,8 +20,8 @@ export class LoginComponent {
     )
     { }
 
-    email : String = "adsoft@live.com.mx";
-    password : String = "123";
+    email : String = "olopez";
+    password : String = "IloverockIloveQueenIloveMinecraft";
     myLogin = new Token();
 
     callLogin() {

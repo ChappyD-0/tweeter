@@ -4,6 +4,7 @@ import { Tweet } from '../models/tweets/Tweet'
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable, throwError } from 'rxjs';
 import { retry, catchError } from 'rxjs/operators';
+import { StorageService } from "../services/storage.service"
 
 @Injectable({
  providedIn: 'root'
@@ -11,18 +12,22 @@ import { retry, catchError } from 'rxjs/operators';
 export class TweetService {
 
  apiURL = 'http://localhost:8080/';
-
+ token ='';
  constructor(
    private http: HttpClient,
+   private storageService: StorageService
  )
- {}
+ {
+  this.token = this.storageService.getSession("token");
+  console.log(this.token);
+ }
+
 
  httpOptions = {
    headers: new HttpHeaders({
      'Content-Type': 'application/json',
      'Access-Control-Allow-Origin':'*',
-     'Authorization':'Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJvbG9wZXoiLCJpYXQiOjE3NDg1NDI4OTgsImV4cCI6MTc0ODYyOTI5OH0.XCoFqG324J34GetI4MMEmIXYBzT3D6I0KDVr58zPM4U'
-   })
+     'Authorization':'Bearer' + this.token })
  }
 
 
