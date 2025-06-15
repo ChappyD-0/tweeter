@@ -7,13 +7,13 @@ import { Tweet } from '../models/tweets/Tweet';
 const FRAGMENT_SHADER = `
 precision mediump float;
 
-vec4 permute(vec4 x){return mod(((x*34.0)+1.0)*x, 289.0);} 
-vec4 taylorInvSqrt(vec4 r){return 1.79284291400159 - 0.85373472095314 * r;} 
-vec4 fade(vec4 t) {return t*t*t*(t*(t*6.0-15.0)+10.0);} 
+vec4 permute(vec4 x){return mod(((x*34.0)+1.0)*x, 289.0);}
+vec4 taylorInvSqrt(vec4 r){return 1.79284291400159 - 0.85373472095314 * r;}
+vec4 fade(vec4 t) {return t*t*t*(t*(t*6.0-15.0)+10.0);}
 
 float cnoise(vec4 P){
-  vec4 Pi0 = floor(P); 
-  vec4 Pi1 = Pi0 + 1.0; 
+  vec4 Pi0 = floor(P);
+  vec4 Pi1 = Pi0 + 1.0;
   Pi0 = mod(Pi0, 289.0);
   Pi1 = mod(Pi1, 289.0);
   vec4 Pf0 = fract(P);
@@ -165,6 +165,9 @@ vec3 palette( float t ) {
 uniform float xStep;
 uniform float yStep;
 uniform float uColor;
+uniform vec2 u_resolution;
+uniform float u_time;
+
 
 void main() {
   vec2 uv = gl_FragCoord.xy / u_resolution.xy*2.-1.;
