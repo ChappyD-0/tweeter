@@ -1,0 +1,86 @@
+.background-animation {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  overflow: hidden;
+  z-index: -1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.ball,
+.ball2,
+.ball3 {
+  mix-blend-mode: lighten;
+  font-size: 3rem;
+  position: absolute;
+  transform-origin: center;
+  animation: rotate-ball 3s infinite linear;
+}
+
+.ball {
+  animation-delay: 1s;
+  filter: blur(50px);
+}
+
+.ball2 {
+  filter: blur(20px);
+  animation-delay: 255ms;
+}
+
+.ball3 {
+  filter: blur(15px);
+}
+
+.ball:after,
+.ball2:after,
+.ball3:after {
+  position: relative;
+  left: -5px;
+  filter: blur(20px);
+  animation: rotate-ball 5s infinite linear;
+}
+
+.ball:before,
+.ball2:before,
+.ball3:before {
+  filter: blur(20px);
+  position: relative;
+  left: 5px;
+  animation: rotate-ball 13s infinite linear;
+}
+
+.ball:after {
+  content: "🔴";
+}
+.ball2:after {
+  content: "🟢";
+}
+.ball3:after {
+  content: "🔵";
+}
+.ball:before {
+  content: "🔵";
+}
+.ball2:before {
+  content: "🔴";
+}
+.ball3:before {
+  content: "🟢";
+}
+
+@keyframes rotate-ball {
+  0% {
+    transform: rotate(0deg) scale(0.1);
+  }
+  50% {
+    transform: rotate(180deg) scale(21);
+  }
+  100% {
+    transform: rotate(360deg) scale(0.1);
+  }
+}
