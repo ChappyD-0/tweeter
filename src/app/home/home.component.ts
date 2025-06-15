@@ -165,6 +165,8 @@ vec3 palette( float t ) {
 uniform float xStep;
 uniform float yStep;
 uniform float uColor;
+uniform vec2 u_resolution;
+uniform float u_time;
 
 void main() {
   vec2 uv = gl_FragCoord.xy / u_resolution.xy*2.-1.;
