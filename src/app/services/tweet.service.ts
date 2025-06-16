@@ -7,6 +7,7 @@ import { retry, catchError } from 'rxjs/operators';
 import { StorageService } from './storage.service';
 import { TweetDetails } from '../models/tweets/TweetDetails';
 import { ReactionRequest } from '../models/tweets/ReactionRequest';
+import { CreateCommentRequest } from '../models/tweets/CreateCommentRequest';
 
 @Injectable({
  providedIn: 'root'
@@ -129,6 +130,32 @@ postTweet(myTweet: String) {
     );
   }
 
+
+  postComment(tweetId: number, content: string) {
+    const body: CreateCommentRequest = {
+      content: content,
+      tweetId: tweetId
+    };
+
+    console.log('POST /api/comments/create body:', body);
+
+    const currentToken = this.StorageService.getSession("token");
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+        'Access-Control-Allow-Origin': '*',
+        'Authorization': 'Bearer ' + currentToken,
+      })
+    };
+
+    return this.http.post(
+      this.apiURL + 'api/comments/create',
+      body,
+      httpOptions
+    ).pipe(
+      catchError(this.handleError)
+    );
+  }
 }
 
 

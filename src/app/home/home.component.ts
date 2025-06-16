@@ -17,6 +17,7 @@ export class HomeComponent {
     tweetText : String = "";
     tweets:Tweet[] = [];
     tweetDetails: { [key: string]: any } = {};
+    newComments: { [key: number]: string } = {};
     reactionTypes = [
     { id: 1, icon: '👍' },
     { id: 2, icon: '❤️' },
@@ -32,6 +33,18 @@ export class HomeComponent {
        console.log(this.username);
        this.getTweets();
     }
+  addComment(tweetId: number) {
+    const content = this.newComments[tweetId];
+    if (!content || content.trim() === '') {
+      return;
+    }
+    this.tweetService.postComment(tweetId, content).subscribe(() => {
+      this.newComments[tweetId] = '';
+      this.loadDetails(tweetId);
+    });
+  }
+
+
 
     private getTweets()
 {

@@ -30,9 +30,13 @@
           <div *ngFor="let c of tweetDetails[tweet.id.toString()].comments" class="comment">
             {{ c.username }}: {{ c.content }}
           </div>
+          <div class="add-comment">
+            <input type="text" [(ngModel)]="newComments[tweet.id.valueOf()]" placeholder="Add comment" />
+            <button (click)="addComment(tweet.id.valueOf())">Comment</button>
+          </div>
         </div>
         <div class="reactions">
-           <span *ngFor="let r of reactionTypes" (click)="addReaction(Number(tweet.id), r.id)" style="cursor:pointer;">
+          <span *ngFor="let r of reactionTypes" (click)="addReaction(tweet.id.valueOf(), r.id)" style="cursor:pointer;">
             {{ r.icon }} {{ countReactions(tweetDetails[tweet.id.toString()].reactions, r.id) }}
           </span>
         </div>
