@@ -32,7 +32,7 @@
           </div>
         </div>
         <div class="reactions">
-          <span *ngFor="let r of reactionTypes">
+           <span *ngFor="let r of reactionTypes" (click)="addReaction(Number(tweet.id), r.id)" style="cursor:pointer;">
             {{ r.icon }} {{ countReactions(tweetDetails[tweet.id.toString()].reactions, r.id) }}
           </span>
         </div>

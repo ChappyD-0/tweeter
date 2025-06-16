@@ -56,8 +56,14 @@ public addTweet()
       this.tweetDetails[id] = details;
     });
   }
-
+  addReaction(tweetId: number, reactionId: number) {
+    this.tweetService.postReaction(tweetId, reactionId).subscribe(() => {
+      this.loadDetails(tweetId);
+    });
+  }
   countReactions(reactions: Reaction[], reactionId: number): number {
     return reactions.filter(r => r.reactionId === reactionId).length;
   }
+
+  protected readonly Number = Number;
 }

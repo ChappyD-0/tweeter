@@ -6,6 +6,7 @@ import { Observable, throwError } from 'rxjs';
 import { retry, catchError } from 'rxjs/operators';
 import { StorageService } from './storage.service';
 import { TweetDetails } from '../models/tweets/TweetDetails';
+import { ReactionRequest } from '../models/tweets/ReactionRequest';
 
 @Injectable({
  providedIn: 'root'
@@ -86,6 +87,29 @@ postTweet(myTweet: String) {
     );
 
 }
+  postReaction(tweetId: number, reactionId: number) {
+    const body: ReactionRequest = {
+      tweetId: tweetId,
+      reactionId: reactionId
+    };
+
+    const currentToken = this.StorageService.getSession("token");
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+        'Access-Control-Allow-Origin': '*',
+        'Authorization': 'Bearer ' + currentToken,
+      })
+    };
+
+    return this.http.post(
+      this.apiURL + 'api/reactions/create',
+      body,
+      httpOptions
+    ).pipe(
+      catchError(this.handleError)
+    );
+  }
   getTweetDetails(id: number): Observable<TweetDetails> {
     const currentToken = this.StorageService.getSession("token");
     const httpOptions = {
