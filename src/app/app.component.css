@@ -10,6 +10,7 @@
   display: flex;
   justify-content: center;
   align-items: center;
+  background-color: black;
 }
 
 .ball,
@@ -19,7 +20,7 @@
   font-size: 3rem;
   position: absolute;
   transform-origin: center;
-  animation: rotate-ball 3s infinite linear;
+  animation: rotate-ball 10s infinite linear;
 }
 
 .ball {

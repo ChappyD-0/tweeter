@@ -4,7 +4,8 @@ import { Tweet } from '../models/tweets/Tweet'
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable, throwError } from 'rxjs';
 import { retry, catchError } from 'rxjs/operators';
-import { StorageService } from "../services/storage.service"
+import { StorageService } from './storage.service';
+import { TweetDetails } from '../models/tweets/TweetDetails';
 
 @Injectable({
  providedIn: 'root'
@@ -12,13 +13,13 @@ import { StorageService } from "../services/storage.service"
 export class TweetService {
 
  apiURL = 'http://localhost:8080/';
- token ='';
+ token = '';
  constructor(
    private http: HttpClient,
-   private storageService: StorageService
+   private StorageService: StorageService
  )
  {
-  this.token = this.storageService.getSession("token");
+  this.token = this.StorageService.getSession("token");
   console.log(this.token);
  }
 
@@ -27,9 +28,8 @@ export class TweetService {
    headers: new HttpHeaders({
      'Content-Type': 'application/json',
      'Access-Control-Allow-Origin':'*',
-     'Authorization':'Bearer' + this.token })
+     'Authorization': 'Bearer ' + this.token })
  }
-
 
 errorMessage = "";
 
@@ -66,16 +66,44 @@ postTweet(myTweet: String) {
 
     console.log(body)
 
+  // Ensure the latest token from storage is used for each request
+  const currentToken = this.StorageService.getSession("token");
+  console.log('Sending JWT:', currentToken);
+  const httpOptions = {
+    headers: new HttpHeaders({
+      'Content-Type': 'application/json',
+      'Access-Control-Allow-Origin': '*',
+      'Authorization': 'Bearer ' + currentToken,
+    })
+  };
     return this.http.post(
         this.apiURL + 'api/tweets/create',
         body,
-        this.httpOptions
+        httpOptions
     )
     .pipe(
         catchError(this.handleError)
     );
 
 }
+  getTweetDetails(id: number): Observable<TweetDetails> {
+    const currentToken = this.StorageService.getSession("token");
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+        'Access-Control-Allow-Origin': '*',
+        'Authorization': 'Bearer ' + currentToken,
+      })
+    };
+
+    return this.http.get<TweetDetails>(
+      `${this.apiURL}api/tweets/details/${id}`,
+      httpOptions
+    ).pipe(
+      retry(1),
+      catchError(this.handleError)
+    );
+  }
 
 }
 

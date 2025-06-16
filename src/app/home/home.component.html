@@ -1,6 +1,6 @@
 
 <p>Welcome {{ username }}</p>
-<canvas #bgCanvas class="background-canvas"></canvas>
+
 <div class="container color-ligth">
   <div class="col">
     <form>
@@ -21,11 +21,22 @@
   </div>
 
   <div class="col">
-    <p
-      class="life-container"
-      *ngFor="let tweet of tweets; let i = index"
-    >
-      {{ tweet.id }} - {{ tweet.tweet }}
-    </p>
+    <div *ngFor="let tweet of tweets" class="tweet">
+      <div class="tweet-content">
+        {{ tweet.id }} - {{ tweet.tweet }}
+      </div>
+      <div *ngIf="tweetDetails[tweet.id.toString()]" class="tweet-extra">
+        <div class="comments">
+          <div *ngFor="let c of tweetDetails[tweet.id.toString()].comments" class="comment">
+            {{ c.username }}: {{ c.content }}
+          </div>
+        </div>
+        <div class="reactions">
+          <span *ngFor="let r of reactionTypes">
+            {{ r.icon }} {{ countReactions(tweetDetails[tweet.id.toString()].reactions, r.id) }}
+          </span>
+        </div>
+      </div>
+    </div>
   </div>
 </div>
