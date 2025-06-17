@@ -232,6 +232,17 @@ console.log("email ... " + myUser.email);
     window.alert(errorMessage);
     return throwError(errorMessage);
  }
+  postSignup(user: { username: string; email: string; password: string }): Observable<any> {
+    return this.http.post(
+      this.apiURL + 'api/auth/signup',
+      {
+        username: user.username,
+        email:    user.email,
+        password: user.password
+      },
+      this.httpOptions
+    );
+  }
 
 
 }

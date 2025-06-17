@@ -1,3 +1,7 @@
+<!-- src/index.html -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Exile&display=swap" rel="stylesheet">
 <div class="background-animation">
   <div class="ball"> 🟡🟢</div>
   <div class="ball2">🔵🔴</div>
@@ -7,14 +11,13 @@
   <div class="ball3">🔴🟡</div>
 </div>
 <nav>
-  <h1 id="animated-title">Fake tweeter</h1>
-      <ul>
-        <li>
-          <a routerLink="login">
-            Login
-          </a>
-        </li>
-      </ul>
+  <h1 id="animated-title" class="monoton-title">Mushrealm</h1>
+  <ul>
+    <li>
+      <a *ngIf="!isHome" [routerLink]="'/login'" class="login-btn">Login</a>
+      <button *ngIf="isHome" class="login-btn" (click)="logout()">Logout</button>
+    </li>
+  </ul>
 </nav>
 <router-outlet></router-outlet>
 by chappyd-0

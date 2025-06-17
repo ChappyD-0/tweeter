@@ -1,1 +1,79 @@
-<p>new-user works!</p>
+<div class="new-user-wrapper">
+  <div class="new-user-card">
+    <h2>Create Account</h2>
+    <form (ngSubmit)="onSubmit()" #signupForm="ngForm" class="signup-form">
+
+      <!-- Username -->
+      <div class="form-group">
+        <label for="username">Username</label>
+        <input
+          type="text"
+          id="username"
+          name="username"
+          class="txt"
+          required
+          minlength="3"
+          [(ngModel)]="model.username"
+          #username="ngModel"
+        />
+        <div class="error" *ngIf="username.invalid && username.touched">
+          Username is required (minimum 3 characters).
+        </div>
+      </div>
+
+      <!-- Email -->
+      <div class="form-group">
+        <label for="email">Email</label>
+        <input
+          type="email"
+          id="email"
+          name="email"
+          class="txt"
+          required
+          email
+          [(ngModel)]="model.email"
+          #emailField="ngModel"
+        />
+        <div class="error" *ngIf="emailField.invalid && emailField.touched">
+          Enter a valid email.
+        </div>
+      </div>
+
+      <!-- Password -->
+      <div class="form-group">
+        <label for="password">Password</label>
+        <input
+          type="password"
+          id="password"
+          name="password"
+          class="txt"
+          required
+          minlength="6"
+          [(ngModel)]="model.password"
+          #password="ngModel"
+        />
+        <div class="error" *ngIf="password.invalid && password.touched">
+          Password must be at least 6 characters.
+        </div>
+      </div>
+
+      <!-- Submit Button -->
+      <button
+        type="submit"
+        class="btn"
+        [disabled]="signupForm.invalid">
+        Create Account
+      </button>
+
+      <!-- Feedback -->
+      <p class="success" *ngIf="successMessage">{{ successMessage }}</p>
+      <p class="error" *ngIf="errorMessage">{{ errorMessage }}</p>
+
+      <!-- Link back to login -->
+      <a routerLink="/login" class="back-link">
+        <span class="material-icons">arrow_back</span>
+        Back to login
+      </a>
+    </form>
+  </div>
+</div>

@@ -1,24 +1,31 @@
-<table border=1>
+<div class="login-blur-bg"></div>
+<table>
 <tr>
-  <td> login CRM-uv  </td> <td>
+  <td> Login</td> <td>
   <a routerLink="/">
-     cancel
+     Cancel
   </a>
   </td>
 </tr>
 <tr>
-  <td> Email </td> <td> <input type="email" [(ngModel)]="email" > {{email}} </td>
+  <td> Email </td>
+  <td>
+    <input type="email" [(ngModel)]="email" placeholder="user@ejemplo.com">
+    {{email}}
+  </td>
 </tr>
 <tr>
-<td> Password </td> <td> <input type="password" [(ngModel)]="password"> {{password }} </td>
+  <td> Password </td>
+  <td>
+    <input type="password" [(ngModel)]="password" placeholder="password">
+    {{password}}
+  </td>
 </tr>
 <tr>
  <td></td> <td>
-
   <a routerLink="/forgot-password">
      Forgot Password ?
   </a>
-
 </td>
 </tr>
 <tr>
@@ -28,10 +35,9 @@
  </td>
 </tr>
 <tr>
- <td></td> <td> new?
-
+ <td></td> <td> New?
   <a routerLink="/newuser">
-    create account
+    Create account
   </a>
  </td>
 </tr>

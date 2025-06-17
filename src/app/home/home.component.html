@@ -1,4 +1,3 @@
-
 <p>Welcome {{ username }}</p>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -14,45 +13,82 @@
 <link href="https://fonts.googleapis.com/css2?family=Teachers:ital,wght@0,400..800;1,400..800&display=swap" rel="stylesheet">
 <div class="container color-ligth">
   <div class="col">
-    <form>
+    <form (ngSubmit)="addTweet()" enctype="multipart/form-data">
       <input
         type="text"
         class="txt"
         name="item"
-        placeholder="your tweet here..."
+        placeholder="your comment here..."
         [(ngModel)]="tweetText"
+        name="tweetText"
       />
+      <!-- Campo para subir imagen -->
+      <input
+        type="file"
+        accept="image/*"
+        (change)="onImageSelected($event)"
+        name="image"
+      />
+      <!-- Previsualización de la imagen -->
+      <div *ngIf="imagePreview" style="margin:10px 0;">
+        <img [src]="imagePreview" alt="Preview" style="max-width:200px;max-height:120px;border-radius:8px;">
+      </div>
       <input
         type="submit"
-        class="btn"
+        class="btn comment-btn"
         value="tweet"
-        (click)="addTweet()"
       />
     </form>
   </div>
 
-  <div *ngFor="let tweet of tweets" class="tweet">
-    <div class="glow-wrapper">
-      <div class="glow-card">
-        <h2>Tweet #{{ tweet.id }}</h2>
-        <p class="tweet-content">{{ tweet.tweet }}</p>
-        <p class="tweet-user">Posted by: <span style="color: orange;">{{ tweet.postedByUsername }}</span></p>
+  <div *ngFor="let tweet of tweets" class="tweet" style="position:relative;">
+    <div class="particle-container">
+      <div class="particle"></div>
+      <div class="particle"></div>
+      <div class="particle"></div>
+      <div class="particle"></div>
+      <div class="particle"></div>
+      <div class="particle"></div>
+      <div class="particle"></div>
+      <div class="particle"></div>
+      <div class="particle"></div>
+      <div class="particle"></div>
+    </div>
+    <div class="spell-card">
+      <div class="card-header">
+        <span class="card-cost">{{ tweet.id }}</span>
+        <h2 class="card-title">Tweet</h2>
+      </div>
+      <div class="card-image">
+
+        <img
+          *ngIf="tweet.imageUrl && tweet.imageUrl !== ''"
+          [src]="tweet.imageUrl.startsWith('/api/') ? 'http://localhost:8080' + tweet.imageUrl : tweet.imageUrl"
+          alt="tweet image"
+          style="max-width:100%;max-height:170px;border-radius:8px;box-shadow:0 2px 8px #b2ebf2;"
+        >
+        <!-- SVG decorativo opcional -->
+
+      </div>
+      <div class="card-body">
+        <p class="tweet-content" style="font-family: 'Comic Sans MS', 'Comic Sans', cursive;">{{ tweet.tweet }}</p>
+        <p class="tweet-user" style="font-family: 'Comic Sans MS', 'Comic Sans', cursive;">Posted by: <span style="color: orange;">{{ tweet.postedByUsername }}</span></p>
         <div *ngIf="tweetDetails[tweet.id.toString()]" class="tweet-extra">
           <div class="comments">
-            <div class="comments-title">Comments</div>
+            <div class="comments-title" style="font-family: 'Comic Sans MS', 'Comic Sans', cursive;">Comments</div>
             <div *ngFor="let c of tweetDetails[tweet.id.toString()].comments" class="comment-row">
-              <div class="comment-user">{{ c.username }}</div>
-              <div class="comment-content">{{ c.content }}</div>
+              <div class="comment-user" style="font-family: 'Comic Sans MS', 'Comic Sans', cursive;">{{ c.username }}</div>
+              <div class="comment-content" style="font-family: 'Comic Sans MS', 'Comic Sans', cursive;">{{ c.content }}</div>
             </div>
             <div class="add-comment">
-              <input type="text" [(ngModel)]="newComments[tweet.id.valueOf()]" placeholder="Add comment" />
-              <button class="comment-btn" (click)="addComment(tweet.id.valueOf())">Comment</button>
+              <input type="text" [(ngModel)]="newComments[tweet.id.valueOf()]" placeholder="Add comment" style="font-family: 'Comic Sans MS', 'Comic Sans', cursive;" />
+              <button class="comment-btn" (click)="addComment(tweet.id.valueOf())" style="font-family: 'Comic Sans MS', 'Comic Sans', cursive;">Comment</button>
             </div>
           </div>
-          <div class="reactions">
-          <span *ngFor="let r of reactionTypes" (click)="addReaction(tweet.id.valueOf(), r.id)" style="cursor:pointer;">
-            {{ r.icon }} {{ countReactions(tweetDetails[tweet.id.toString()].reactions, r.id) }}
-          </span>
+          <div class="reactions" style="font-family: 'Comic Sans MS', 'Comic Sans', cursive;">
+            <span *ngFor="let r of reactionTypes" (click)="addReaction(tweet.id.valueOf(), r.id)" style="cursor:pointer;">
+              {{ r.icon }} {{ countReactions(tweetDetails[tweet.id.toString()].reactions, r.id) }}
+            </span>
           </div>
         </div>
       </div>

@@ -5,6 +5,7 @@ import { TweetService } from '../services/tweet.service';
 import { Tweet } from '../models/tweets/Tweet';
 import { TweetDetails } from '../models/tweets/TweetDetails';
 import { Reaction } from '../models/tweets/Reaction';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 
 @Component({
   selector: 'app-home',
@@ -14,7 +15,9 @@ import { Reaction } from '../models/tweets/Reaction';
 export class HomeComponent {
     private glsl?: Canvas;
     username : String = "";
-    tweetText : String = "";
+    tweetText : string = '';
+    selectedImage: File | null = null;
+    imagePreview: string | ArrayBuffer | null = null;
     tweets:Tweet[] = [];
     tweetDetails: { [key: string]: any } = {};
     newComments: { [key: number]: string } = {};
@@ -25,8 +28,10 @@ export class HomeComponent {
     { id: 4, icon: '😢' },
     { id: 5, icon: '😡' },
     ];
+    apiURL = 'http://localhost:8080';
     constructor( private storageService : StorageService,
-                 private tweetService: TweetService
+                 private tweetService: TweetService,
+                 private http: HttpClient
                )
     {
        this.username = this.storageService.getSession("user");
@@ -55,15 +60,62 @@ export class HomeComponent {
    });
  }
 
-public addTweet()
- {
-  this.tweetService.postTweet(this.tweetText).subscribe((tweet: any) => {
-     console.log(tweet);
-     this.getTweets();
+  onImageSelected(event: Event) {
+    const file = (event.target as HTMLInputElement).files?.[0];
+    if (file) {
+      this.selectedImage = file;
+      const reader = new FileReader();
+      reader.onload = e => this.imagePreview = reader.result;
+      reader.readAsDataURL(file);
+    }
+  }
 
-   });
+ public addTweet() {
+      const currentToken = this.storageService.getSession("token");
+      const httpOptions = {
+        headers: new HttpHeaders({
+          'Authorization': 'Bearer ' + currentToken
+        })
+      };
 
- }
+      if (this.selectedImage) {
+        const formData = new FormData();
+        formData.append('image', this.selectedImage);
+        this.http.post<{ imageUrl: string } | string>(
+          this.apiURL + '/api/tweets/upload-image',
+          formData,
+          {
+            headers: httpOptions.headers,
+            responseType: 'text' as 'json'
+          }
+        )
+        .subscribe((res: any) => {
+          const imageUrl = typeof res === 'string' ? res : (res.imageUrl || '');
+          this.sendTweetWithImage(imageUrl, httpOptions);
+        });
+      } else {
+        this.sendTweetWithImage('', httpOptions);
+      }
+    }
+
+    sendTweetWithImage(imageUrl: string, httpOptions: any) {
+      const tweetPayload = {
+        tweet: this.tweetText,
+        imageUrl: imageUrl
+      };
+      this.http.post(
+        this.apiURL + '/api/tweets/create',
+        tweetPayload,
+        httpOptions
+      )
+      .subscribe(() => {
+        this.tweetText = '';
+        this.selectedImage = null;
+        this.imagePreview = null;
+        this.getTweets();
+      });
+    }
+
   private loadDetails(id: number) {
     this.tweetService.getTweetDetails(id).subscribe((details: TweetDetails) => {
       this.tweetDetails[id] = details;

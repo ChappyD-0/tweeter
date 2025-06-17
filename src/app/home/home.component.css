@@ -150,3 +150,45 @@ p {
   text-align: left;
   letter-spacing: 1px;
 }
+.comment-btn {
+
+  background: linear-gradient(90deg, #00fff7 0%, #ffb300 100%);
+  color: #111;
+  font-family: "Zen Dots", sans-serif;
+  font-size: 1.6rem;         /* Increased font size */
+  padding: 0.9rem 2.2rem;    /* Increased padding */
+  border: none;
+  border-radius: 12px;       /* Slightly larger border radius */
+  box-shadow: 0 0 14px #00fff7, 0 0 28px #ffb30033;
+  cursor: pointer;
+  transition: transform 0.1s, box-shadow 0.2s;
+  margin-left: 0.5rem;
+}
+.comment-btn:hover {
+  transform: scale(1.12);
+  box-shadow: 0 0 24px #00fff7, 0 0 40px #ffb30066;
+  filter: brightness(1.1);
+}
+.txt {
+  font-size: 1.6rem;         /* Match button font size */
+  padding: 0.9rem 2.2rem;    /* Match button padding */
+  border-radius: 12px;       /* Match button border radius */
+  border: none;
+  width: 70%;
+  background: #181c22;
+  color: #fff;
+  margin-right: 0.5rem;
+  box-shadow: 0 0 14px #00fff766;
+  font-family: "Zen Dots", sans-serif;
+  margin-bottom: 1.2rem;
+}
+.txt::placeholder {
+  color: #aaa;
+  opacity: 1;
+}
+p:first-of-type {
+  font-family: 'Exile', sans-serif;
+  font-size: 2.2rem;
+  letter-spacing: 1px;
+  color: #fff;
+}

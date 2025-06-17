@@ -1,0 +1,14 @@
+<form (ngSubmit)="createTweet()" enctype="multipart/form-data">
+  <div>
+    <label for="tweet">Tweet:</label>
+    <input id="tweet" name="tweet" [(ngModel)]="tweetText" required>
+  </div>
+  <div>
+    <label for="image">Image:</label>
+    <input id="image" type="file" (change)="onImageSelected($event)" accept="image/*">
+  </div>
+  <div *ngIf="imagePreview" style="margin:10px 0;">
+    <img [src]="imagePreview" alt="Preview" style="max-width:200px;max-height:120px;border-radius:8px;">
+  </div>
+  <button type="submit">Post Tweet</button>
+</form>
