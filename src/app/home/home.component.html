@@ -1,6 +1,17 @@
 
 <p>Welcome {{ username }}</p>
-
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Inline:opsz,wght@10..72,100..900&display=swap" rel="stylesheet">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Barriecito&display=swap" rel="stylesheet">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Zen+Dots&display=swap" rel="stylesheet">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Teachers:ital,wght@0,400..800;1,400..800&display=swap" rel="stylesheet">
 <div class="container color-ligth">
   <div class="col">
     <form>
@@ -20,25 +31,29 @@
     </form>
   </div>
 
-  <div class="col">
-    <div *ngFor="let tweet of tweets" class="tweet">
-      <div class="tweet-content">
-        {{ tweet.id }} - {{ tweet.tweet }}
-      </div>
-      <div *ngIf="tweetDetails[tweet.id.toString()]" class="tweet-extra">
-        <div class="comments">
-          <div *ngFor="let c of tweetDetails[tweet.id.toString()].comments" class="comment">
-            {{ c.username }}: {{ c.content }}
+  <div *ngFor="let tweet of tweets" class="tweet">
+    <div class="glow-wrapper">
+      <div class="glow-card">
+        <h2>Tweet #{{ tweet.id }}</h2>
+        <p class="tweet-content">{{ tweet.tweet }}</p>
+        <p class="tweet-user">Posted by: <span style="color: orange;">{{ tweet.postedByUsername }}</span></p>
+        <div *ngIf="tweetDetails[tweet.id.toString()]" class="tweet-extra">
+          <div class="comments">
+            <div class="comments-title">Comments</div>
+            <div *ngFor="let c of tweetDetails[tweet.id.toString()].comments" class="comment-row">
+              <div class="comment-user">{{ c.username }}</div>
+              <div class="comment-content">{{ c.content }}</div>
+            </div>
+            <div class="add-comment">
+              <input type="text" [(ngModel)]="newComments[tweet.id.valueOf()]" placeholder="Add comment" />
+              <button class="comment-btn" (click)="addComment(tweet.id.valueOf())">Comment</button>
+            </div>
           </div>
-          <div class="add-comment">
-            <input type="text" [(ngModel)]="newComments[tweet.id.valueOf()]" placeholder="Add comment" />
-            <button (click)="addComment(tweet.id.valueOf())">Comment</button>
-          </div>
-        </div>
-        <div class="reactions">
+          <div class="reactions">
           <span *ngFor="let r of reactionTypes" (click)="addReaction(tweet.id.valueOf(), r.id)" style="cursor:pointer;">
             {{ r.icon }} {{ countReactions(tweetDetails[tweet.id.toString()].reactions, r.id) }}
           </span>
+          </div>
         </div>
       </div>
     </div>
